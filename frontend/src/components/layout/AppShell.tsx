@@ -14,12 +14,10 @@ export default function AppShell({ children, title }: AppShellProps) {
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
-      {/* Desktop Sidebar */}
       <div className="hidden lg:flex flex-shrink-0">
         <Sidebar />
       </div>
 
-      {/* Mobile Sidebar Drawer */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 flex lg:hidden">
           <div
@@ -32,7 +30,6 @@ export default function AppShell({ children, title }: AppShellProps) {
         </div>
       )}
 
-      {/* Main content */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Header title={title} onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">{children}</main>

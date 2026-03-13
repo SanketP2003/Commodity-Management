@@ -2,11 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import * as bcrypt from 'bcryptjs';
 import * as dotenv from 'dotenv';
+import { Pool } from 'pg';
 
 dotenv.config();
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { Pool } = require('pg');
 
 async function main() {
   const connectionString = process.env.DATABASE_URL!;
@@ -45,7 +43,6 @@ async function main() {
   console.log(`   Manager  → email: manager@example.com  | password: manager123`);
   console.log(`   Keeper   → email: keeper@example.com   | password: keeper123`);
 
-  // Seed some sample products
   await prisma.product.createMany({
     data: [
       {

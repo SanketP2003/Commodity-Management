@@ -47,7 +47,6 @@ export default function DashboardPage() {
 
   return (
     <AppShell title="Dashboard">
-      {/* Overview */}
       <div className="mb-6">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
           Commodities Overview
@@ -118,7 +117,6 @@ export default function DashboardPage() {
             />
           </div>
 
-          {/* Category breakdown table */}
           {Object.keys(categoryMap).length > 0 && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
               <div className="px-5 py-4 border-b border-gray-200 dark:border-gray-700">

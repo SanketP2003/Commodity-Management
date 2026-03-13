@@ -10,7 +10,6 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { ROUTES } from '@/lib/constants';
 
-// Use string types for number fields to avoid zod v4 coerce type issues with react-hook-form
 const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
   description: z.string().min(1, 'Description is required'),

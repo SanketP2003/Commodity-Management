@@ -33,13 +33,11 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex items-center justify-center p-4">
-      {/* Theme toggle */}
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
 
       <div className="w-full max-w-md">
-        {/* Logo & Branding */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-200 dark:shadow-indigo-900/30">
             <Boxes className="w-7 h-7 text-white" />
@@ -50,7 +48,6 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-700 p-8">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Welcome back</h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
@@ -59,7 +56,6 @@ export default function LoginPage() {
           <LoginForm />
         </div>
 
-        {/* Role hint */}
         <div className="mt-6 p-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
           <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
             Demo Accounts

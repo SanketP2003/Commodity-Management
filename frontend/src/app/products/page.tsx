@@ -77,7 +77,6 @@ export default function ProductsPage() {
   return (
     <AppShell title="Products">
       <div className="space-y-5">
-        {/* Header actions */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">All Products</h2>
@@ -105,7 +104,6 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -131,7 +129,6 @@ export default function ProductsPage() {
           )}
         </div>
 
-        {/* Content */}
         {loading ? (
           <div className="space-y-2">
             {[...Array(5)].map((_, i) => (

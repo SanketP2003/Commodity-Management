@@ -22,7 +22,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setTokenState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const storedToken = getToken();
     const storedUser = getUser();
@@ -30,7 +29,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUserState(storedUser);
     setIsLoading(false);
   }, []);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   const login = useCallback(async (email: string, password: string) => {
     const query = `

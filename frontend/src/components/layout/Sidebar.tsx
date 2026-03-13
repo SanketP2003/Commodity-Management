@@ -26,7 +26,11 @@ interface SidebarProps {
 
 export default function Sidebar({ onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth();
+
+  if (isLoading) {
+    return null;
+  }
 
   const filteredItems = NAV_ITEMS.filter((item) =>
     item.roles.includes(user?.role as Role)
@@ -34,7 +38,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
 
   return (
     <aside className="flex flex-col h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
-      {/* Logo */}
       <div className="flex items-center gap-2.5 px-5 py-5 border-b border-gray-200 dark:border-gray-800">
         <div className="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
           <Boxes className="w-5 h-5 text-white" />
@@ -44,8 +47,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
           <p className="text-xs text-gray-500 dark:text-gray-400">Commodities</p>
         </div>
       </div>
-
-      {/* User info */}
       <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center flex-shrink-0">
@@ -67,8 +68,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
           </div>
         </div>
       </div>
-
-      {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {filteredItems.map((item) => {
           const Icon = iconMap[item.icon];
@@ -90,8 +89,6 @@ export default function Sidebar({ onClose }: SidebarProps) {
           );
         })}
       </nav>
-
-      {/* Logout */}
       <div className="px-3 py-4 border-t border-gray-200 dark:border-gray-800">
         <button
           onClick={logout}
