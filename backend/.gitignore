@@ -1,0 +1,14 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+
+# Ignore generated TypeScript/Prisma artifacts
+/prisma.config.js
+/prisma.config.js.map
+/prisma.config.d.ts
+/prisma/seed.js
+/prisma/seed.js.map
+/tsconfig.build.tsbuildinfo
+

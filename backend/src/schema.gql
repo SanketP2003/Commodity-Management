@@ -1,0 +1,49 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthPayload {
+  token: String!
+  user: UserType!
+}
+
+type Mutation {
+  addProduct(category: String!, description: String!, name: String!, price: Float!, quantity: Float!, supplier: String!, unit: String!): ProductType!
+  deleteProduct(id: String!): Boolean!
+  editProduct(category: String, description: String, id: String!, name: String, price: Float, quantity: Float, supplier: String, unit: String): ProductType!
+  login(email: String!, password: String!): AuthPayload!
+}
+
+"""Stock status of the product"""
+enum ProductStatus {
+  IN_STOCK
+  LOW_STOCK
+  OUT_OF_STOCK
+}
+
+type ProductType {
+  category: String!
+  createdAt: String!
+  description: String!
+  id: String!
+  name: String!
+  price: Float!
+  quantity: Float!
+  status: ProductStatus!
+  supplier: String!
+  unit: String!
+  updatedAt: String!
+}
+
+type Query {
+  me: UserType
+  product(id: String!): ProductType!
+  products: [ProductType!]!
+}
+
+type UserType {
+  email: String!
+  id: String!
+  name: String!
+  role: String!
+}
