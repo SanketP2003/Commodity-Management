@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { User, Role } from '@/types/auth';
 import { getToken, setToken, getUser, setUser, clearAuth } from '@/lib/auth';
 import { API_BASE_URL } from '@/lib/constants';
@@ -22,15 +22,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setTokenState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const storedToken = getToken();
     const storedUser = getUser();
-    if (storedToken && storedUser) {
-      setTokenState(storedToken);
-      setUserState(storedUser);
-    }
+    setTokenState(storedToken);
+    setUserState(storedUser);
     setIsLoading(false);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const login = useCallback(async (email: string, password: string) => {
     const query = `

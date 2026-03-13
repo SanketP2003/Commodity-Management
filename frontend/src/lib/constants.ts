@@ -10,6 +10,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   PRODUCTS: '/products',
   ADD_PRODUCT: '/products/new',
+  VIEW_PRODUCT: (id: string) => `/products/${id}/details`,
   EDIT_PRODUCT: (id: string) => `/products/${id}`,
 };
 
@@ -34,5 +35,5 @@ export const NAV_ITEMS = [
   },
 ];
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 

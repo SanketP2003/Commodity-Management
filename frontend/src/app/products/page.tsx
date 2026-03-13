@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@apollo/client/react';
+import { useQuery, useMutation } from '@apollo/client/react';
 import { useRouter } from 'next/navigation';
 import { PlusCircle, Search, RefreshCw } from 'lucide-react';
 import AppShell from '@/components/layout/AppShell';
@@ -9,6 +9,7 @@ import ProductsTable from '@/components/products/ProductsTable';
 import Button from '@/components/ui/Button';
 import { useRequireRole } from '@/hooks/useRequireRole';
 import { GET_PRODUCTS_QUERY } from '@/graphql/queries/getProducts';
+import { DELETE_PRODUCT_MUTATION } from '@/graphql/mutations/deleteProduct';
 import { Product } from '@/types/product';
 import { ROUTES } from '@/lib/constants';
 
@@ -17,10 +18,15 @@ export default function ProductsPage() {
   const router = useRouter();
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
+  const [page, setPage] = useState(0);
 
   const { data, loading, error, refetch } = useQuery<{ products: Product[] }>(
     GET_PRODUCTS_QUERY
   );
+
+  const [deleteProduct, { loading: deleting }] = useMutation(DELETE_PRODUCT_MUTATION, {
+    refetchQueries: [{ query: GET_PRODUCTS_QUERY }],
+  });
 
   if (authLoading) {
     return (
@@ -31,6 +37,8 @@ export default function ProductsPage() {
   }
 
   const products = data?.products || [];
+
+  const pageSize = 10;
 
   const categories = Array.from(new Set(products.map((p) => p.category))).sort();
 
@@ -43,6 +51,28 @@ export default function ProductsPage() {
     const matchesCategory = !categoryFilter || p.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const currentPage = Math.min(page, totalPages - 1);
+  const paged = filtered.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+
+  const handleDelete = async (id: string) => {
+    const toDelete = products.find((p) => p.id === id);
+    const name = toDelete?.name || 'this product';
+    if (!window.confirm(`Delete ${name}? This cannot be undone.`)) return;
+    await deleteProduct({ variables: { id } });
+    setPage(0);
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setPage(0);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setCategoryFilter(value);
+    setPage(0);
+  };
 
   return (
     <AppShell title="Products">
@@ -83,14 +113,14 @@ export default function ProductsPage() {
               type="text"
               placeholder="Search products, suppliers…"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               className="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
           {categories.length > 0 && (
             <select
               value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
+              onChange={(e) => handleCategoryChange(e.target.value)}
               className="px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
               <option value="">All Categories</option>
@@ -116,7 +146,34 @@ export default function ProductsPage() {
             </Button>
           </div>
         ) : (
-          <ProductsTable products={filtered} />
+          <div className="space-y-4">
+            <ProductsTable products={paged} onDelete={handleDelete} />
+            <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+              <span>
+                Showing {paged.length ? currentPage * pageSize + 1 : 0}–
+                {Math.min((currentPage + 1) * pageSize, filtered.length)} of {filtered.length}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={currentPage === 0 || deleting}
+                  onClick={() => setPage((p) => Math.max(0, p - 1))}
+                >
+                  Previous
+                </Button>
+                <span className="px-2">Page {currentPage + 1} / {totalPages}</span>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={currentPage >= totalPages - 1 || deleting}
+                  onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </AppShell>

@@ -100,6 +100,15 @@ export default function ProductsTable({ products, onDelete }: ProductsTableProps
                     <Button
                       variant="ghost"
                       size="sm"
+                      onClick={() => router.push(ROUTES.VIEW_PRODUCT(product.id))}
+                      className="!p-1.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      title="View product"
+                    >
+                      <span className="text-xs font-semibold">View</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => router.push(ROUTES.EDIT_PRODUCT(product.id))}
                       className="!p-1.5 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
                       title="Edit product"
